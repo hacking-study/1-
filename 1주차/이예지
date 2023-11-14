@@ -1,1 +1,23 @@
+# gremlin 문제
 
+<?php
+  include "./config.php";
+  login_chk();
+  $db = dbconnect();
+  if(preg_match('/prob|_|\.|\(\)/i', $_GET[id])) exit("No Hack ~_~"); // do not try to attack another table, database!
+  if(preg_match('/prob|_|\.|\(\)/i', $_GET[pw])) exit("No Hack ~_~");
+  $query = "select id from prob_gremlin where id='{$_GET[id]}' and pw='{$_GET[pw]}'";
+  echo "<hr>query : <strong>{$query}</strong><hr><br>";
+  $result = @mysqli_fetch_array(mysqli_query($db,$query));
+  if($result['id']) solve("gremlin");
+  highlight_file(__FILE__);
+?>
+
+# 문제 풀이
+LoS는 따로 플래그를 입력하는 방식이 아니라 코드 안의 solve() 함수가 동작하도록 하면 문제가 풀림.
+solve() 함수를 동작시키기 위해선 if($result['id']) 라는 조건문을 통과해야함.
+->  id값에 따라 if 문의 조건을 통과 할 수 있는지가 결정됨
+->  id가 없으면 0이 반환. 따라서 아이디가 무엇이든 존재하기만하면 결과값이 참이 되어 문제 해결 가능
+9번줄에서 알 수 있듯, get 방식으로 아이디와 비밀번호를 입력받아 퀴리문을 보냄
+따라서 9번줄 쿼리문을 완성하기 위해 아래의 파라미터 값을 입력함.
+?id= 1' or 1=1# ( #은 데이터베이스 mysql 의 한줄 주석)
